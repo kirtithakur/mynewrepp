@@ -1,0 +1,319 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])){
+header("location:../login.php");
+}
+include "../settings.php";
+$email=$_SESSION['email'];
+$query="SELECT * from phd WHERE email='$email'";
+$result=mysql_query($query);
+$data=mysql_fetch_array($result);
+if($data['confirmed']==1)
+{
+?>
+<meta http-equiv="refresh" content="0; url=print.php" />
+<?php }
+?>
+
+
+
+<html>
+	<head>
+	
+
+ 
+		<title> PhD, SCEE|Home </title>
+		<link rel="stylesheet" type="text/css" href="login-box.css"/>
+
+
+<script type="text/javascript">
+function ugdegree(val){
+ var element=document.getElementById('ug');
+ if(val=='Select UG Degree'||val=='others')
+   element.style.display='block';
+ else  
+   element.style.display='none';
+}
+function pgdegree(val){
+ var element=document.getElementById('pg');
+ if(val=='Select pg Degree'||val=='others')
+   element.style.display='block';
+ else  
+   element.style.display='none';
+}
+function pg2degree1(val){
+ var element=document.getElementById('pg2');
+ if(val=='Select pg2 Degree'||val=='others')
+   element.style.display='block';
+ else  
+   element.style.display='none';
+}
+
+</script> </head>
+	<body>
+		<center>
+			<div class="content">
+				<div class="header"></div>
+				<form action="update.php" method="post"><table width="100%"><tr><td colspan="4" align="right"><button><b>User: <?php echo $_SESSION['email'];?></button><a href="../logout.php"><button>Logout</button></a></b></td></tr></table>
+
+<legend bgcolor="gray">Your are filling the form for PhD in SCEE </font> </legend>
+<fieldset style="text-align:left;">
+<legend bgcolor="gray"> Personal Details</font> </legend>
+<div align="left" style="float: left; width: 500px;">
+<table width="30%">
+<tr><td width="5%">Name:</td><td>
+<input type="text" size="20"  name="name" value="<?php echo $data['name'];?>">
+</tr>
+<tr><td>Father's Name:</td><td><input type="text" name="fatname" value="<?php echo $data['fatname'];?>" maxlength="150" size="20" /></tr>
+<tr><td>DOB:</td><td>
+<input type="text" style="width: 230px"  name="dob"  value="<?php echo $data['dob'];?>" size="20"/>
+      </td></tr>
+<tr>
+<td>Gender</td>
+<td>
+<select name="gender"><option value="<?php echo $data['gender'];?>" selected=""><?php echo $data['gender'];?></option><option value="M">Male</option>
+<option value="M">Male</option><option value="F">Female</option><option value="O">Others</option>
+</select></td></tr>
+<tr>
+<td>Category:</td><td>
+<select name="category"><option value="<?php echo $data['category'];?>" selected=""><?php echo $data['category'];?></option>
+<option value="General">General</option><option value="OBC">OBC</option><option value="SC">SC</option>
+<option value="ST">ST</option><option value="PC">PC</option>
+</select>
+</td></tr>
+<tr>
+<td>Address:</td><td><textarea  name="address" rows = "2" cols = "30" value="<?php echo $data['address'];?>" ></textarea></td></tr>
+
+<tr><td>Phone:</td>
+<td><input type="text" name="landline" maxlength="150"  value="<?php echo $data['landline'];?>" size="20"/></td></tr>
+<tr>
+<td>Mobile:</td><td>
+<input type="text" size="20" name="mobile" value="<?php echo $data['mobile'];?>"></label>
+</td></tr>
+	
+	<tr><td>Nationality</td><td>
+            <input type="text" name="nationality"  maxlength="150"  value="<?php echo $data['nationality'];?>"  size="20" /> 
+           </td>
+	
+	</tr>
+</table>
+</div>
+<div align="left" style="float: center; width: 300px;">
+<table width="50%"><tr><td>School</td><td><input type="text" name="school"  readonly maxlength="150"  value="School of Computing and Electrical (SCEE)"  size="27" required /> </td></tr>
+  <tr><td>Programme</td><td><input type="text" name="programme"  maxlength="150"  value="Doctorate of Philosophy (PhD)" readonly size="20" required /> </td></tr>
+
+<tr><td>Specialization</td><td>
+<select name="specialization"><option value="<?php echo $data['specialization'];?>" selected=""><?php echo $data['specialization'];?></option><option value="null">----Specialization----</option>
+    <option value="Computer Science And Engineering">Computer Science And Engineering</option>
+    <option value="Electrical Engineering">Electrical Engineering</option>
+   <option value="Computing and Electronics Engineerin">Computing and Electronics Engineering </option>
+    </td></tr>
+<tr><td>Area of Interest:</td><td><option value="<?php echo $data['areainstrst'];?>" selected=""><?php echo $data['areainstrst'];?></option>
+
+<select id="areainstrst" name="areainstrst[]" multiple="multiple">
+ <option selected value=''>----Multiple Select with hold of ctrl button----</option>
+<option value='Design (mechanical)'>Design (mechanical)</option>
+<option value='Artificial Intelligence, Cognitive Modelling, and Human-Computer Interaction'>Artificial Intelligence, Cognitive Modelling, and Human-Computer Interaction</option>
+<option value='Numerical methods for PDEs'>Numerical methods for PDEs </option>
+<option value='Nanotechnology, Physical Chemistry, Spectroscopy etc'>Nanotechnology, Physical Chemistry, Spectroscopy etc</option>
+<option value='Nanotechnology and Experimental Condensed Matter Physics'>Nanotechnology and Experimental Condensed Matter Physics</option>
+<option value='Organic Synthesis'>Organic Synthesis</option>
+<option value='Theoretical Chemistry'>Theoretical Chemistry </option> 
+<option value='Development Economics'>Development Economics</option> 
+<option value='Image analysis and Machine Learning'>Image analysis and Machine Learning  </option> 
+<option value='Soft materials for Electronic Application'>Soft materials for Electronic Application </option> 
+<option value='Web Development (computer science)'> Web Development (computer science)</option>
+<option value='Computational Fluids Dynamics'>Computational Fluids Dynamics </option>
+<option value='Health Economics'>Health Economics </option>
+
+    </select>
+</td></tr>
+<tr><td>Email ID</td><td><input name="email" maxlength="150" size="18" readonly value="<? echo $email;?>"/></td></td></tr>
+</table>
+</div></fieldset>
+<fieldset>
+<legend>Academics Details</legend>
+<div>
+<table width="100%">
+
+<tr><td class="td1">Diploma</td><td class="td1">Branch/Subjects</td><td class="td1">College/Institute</td><td class="td1">University</td><td class="td1">Year</td><td class="td1">grade/CGPA/%age</td></tr>
+<tr></tr>  <tr><td><select name="dipname"> 
+ <option value="Diploma in Engineering">Diploma in Engineering</option>
+
+  </select></td>
+<td> <input type="text"  maxlength="150"  name="dipbranch" value="<?php echo $data['dipbranch'];?>"  size="20"  /></td> <td>
+<input type="text"  maxlength="150" name="dipcollege" value="<?php echo $data['dipcollege'];?>" size="20" /> </td><td>
+<input type="text" maxlength="150"  name="dipuni" value="<?php echo $data['dipuni'];?>" size="15"  /></td>
+<td><input type="text"  maxlength="150"  name="dipyear" value="<?php echo $data['dipyear'];?>" size="1" /></td>
+<td><input type="text"  maxlength="150" name="dipgrade" value="<?php echo $data['dipgrade'];?>" maxlength="150" size="6" /></td></tr>
+
+<tr><td class="td1">UG Degree</td><td class="td1">Branch/Subjects</td><td class="td1">College/Institute</td><td class="td1">University</td><td class="td1">Year</td><td class="td1">grade/CGPA/%age</td></tr>
+<tr><td><select name="ug" onchange='ugdegree(this.value);'> 
+     <option value="<?php echo $data['ug'];?>" selected=""><?php echo $data['ug'];?></option>
+ <option value="Bachelor of Engineering (B.E.)">Bachelor of Engineering (B.E.)</option>
+<option value="Bachelor of Technology (B.Tech)">Bachelor of Technology (B.Tech)</option>
+<option value="Bachelor of Computer Application(BCA)">Bachelor of Computer Application</option>
+<option value="IETE">IETE</option>
+<option value="AMIE">AMIE</option>
+<option value="Bachelor of Science (B.Sc)">Bachelor of Science (B. Sc)</option>
+<option value="others">others</option>
+  </select>
+<input type="text" name="ugother" id="ug" style='display:none;' />
+
+<td><input type="text"   maxlength="150" name="ugcollege" value="<?php echo $data['ugcollege'];?>" size="20" /></td> <td>
+<input type="text"   maxlength="150" name="ugbranch" value="<?php echo $data['ugbranch'];?>" size="20"/> </td><td>
+<input type="text" maxlength="150" name="uguni" value="<?php echo $data['uguni'];?>" size="15" /></td><td>
+<input type="text"  maxlength="150"  name="ugyear" value="<?php echo $data['ugyear'];?>" maxlength="150" size="1"/></td>
+<td><input type="text"  maxlength="150" name="uggrade" value="<?php echo $data['uggrade'];?>" maxlength="150" size="6"/></td></tr>
+  
+<tr><td class="td1">PG1 Degree</td><td class="td1">Branch/Subjects</td><td class="td1">College/Institute</td><td class="td1">University</td><td class="td1">Year</td><td class="td1">grade/CGPA/%age</td></tr>
+
+<tr><td> <select name="pg" onchange='pgdegree(this.value);'> 
+    <option value="<?php echo $data['pg1'];?>" selected=""><?php echo $data['pg1'];?></option>
+    <option value="M. Tech">Master of Technology (M. Tech)</option>
+  <option value="Masters of Computer Application(MCA)">Masters of Computer Application(MCA)</option>
+  <option value="MS">Master of Science by Research (M.S)</option>
+    <option value="others">others</option>
+  </select>
+<input type="text" name="pgother" id="pg" style='display:none;' /></td>
+
+<td><input type="text"   maxlength="150" name="pgcollege" value="<?php echo $data['pgcollege'];?>" size="20"/></td> <td>
+<input type="text"   maxlength="150" name="pgbranch" value="<?php echo $data['pgbranch'];?>" size="20"/> </td><td>
+<input type="text" maxlength="150" name="pguni" value="<?php echo $data['pguni'];?>" size="15"/></td><td>
+<input type="text"  maxlength="150"  name="pgyear" value="<?php echo $data['pgyear'];?>" maxlength="150" size="1"/></td>
+<td><input type="text"  maxlength="150" name="pggrade" value="<?php echo $data['pggrade'];?>" maxlength="150" size="6"/></td></tr>
+
+<tr><td class="td1">PG2 Degree</td><td class="td1">Branch/Subjects</td><td class="td1">College/Institute</td><td class="td1">University</td><td class="td1">Year</td><td class="td1">grade/CGPA/%age</td></tr>
+<tr><td><select name="pg2" onchange='pg2degree1(this.value);'> 
+
+   <option value="<?php echo $data['ug'];?>" selected=""><?php echo $data['ug'];?></option>
+    <option value="M. Tech">Master of Technology (M. Tech)</option>
+  <option value="20">Masters of Computer Application(MCA)</option>
+  <option value="MS">Master of Science by Research (M.S)</option>
+    <option value="others">others</option>
+  </select>
+<input type="text" name="pg2other" id="pg2" style='display:none;'  /></td>
+
+<td><input type="text"   maxlength="150" name="pg2college" value="<?php echo $data['pg2college'];?>" size="20"/></td> <td>
+<input type="text"   maxlength="150" name="pg2branch" value="<?php echo $data['pg2branch'];?>" size="20"/> </td><td>
+<input type="text" maxlength="150" name="pg2uni" value="<?php echo $data['pg2uni'];?>" size="15"/></td><td>
+<input type="text"  maxlength="150"  name="pg2year" value=""<?php echo $data['pg2year'];?> maxlength="150" size="1" /></td>
+<td><input type="text"  maxlength="150" name="pg2grade" value="<?php echo $data['pg2grade'];?>" maxlength="150" size="6"/></td></tr>
+  
+   
+</table></fieldset>
+<fieldset>
+<legend>Qualifying Exam details</legend>
+
+<table  align="left"><tr><td class="td1"> Qualifying Exam:</td><td class="td1">Subject:</td><td class="td1">Valid Date</td><td class="td1">Score:</td><td class="td1">All India Rank:</td></tr>
+<tr><td><select name="qexam">
+    <option value="<?php echo $data['qexam'];?>" selected=""><?php echo $data['qexam'];?></option>
+    <option value="GATE">GATE</option>
+<option value="GRE">GRE - GRE[Only for foreign nationals]</option>
+<option value="GMT">GMT - GMAT[Only for foreign nationals]</option>
+
+
+   </select>
+    </td>
+<td><select name="qname"><option value="<?php echo $data['qname'];?>" selected=""><?php echo $data['qname'];?></option>
+<option value="Electrical Engineering (EE)">Electrical Engineering (EE)</option>
+<option value="Electronics and Communication Engineering (ECE)">Electronics and Communication Engineering (ECE)</option>
+<option value="Engineering Sciences (XE)">Engineering Sciences (XE)</option>
+<option value="Computer Science and IT (CS)">Computer Science and IT (CS)</option>
+<option value="GRE[Only for foreign nationals]">GRE[Only for foreign nationals]</option>
+<option value="GMAT[Only for foreign nationals]">GMAT[Only for foreign nationals]</option></select>
+</td>
+ <td><select name="gatevalid">
+<option value="<?php echo $data['gatevalid'];?>" selected=""><?php echo $data['gatevalid'];?></option>
+<option value="Dec 2013">Dec 2013</option>
+<option value="Dec 2014">Dec 2014</option>
+<option value="Dec 2015">Dec 2015</option>
+<option value="Dec 2016">Dec 2016</option>
+ <option value="NA">NA</option>
+</select>	</td>
+ <td><input type="text"  maxlength="150"  name="gatescore" value="<?php echo $data['gatescore'];?>" maxlength="150" size="10"/></td>
+ <td><input type="text"  maxlength="150"  name="rank" value="<?php echo $data['rank'];?>" size="10"/></td></tr>
+
+</table  bgcolor="#C0C0C0"></fieldset>
+<fieldset>
+<legend>Work Experience</legend>
+
+<table width="100%"> <tr><td class="td1">Organization</td><td class="td1">Nature of Works</td><td class="td1">Technical Expertise</td><td class="td1">Total Work Experience</td></tr>
+<tr>
+<td><input type="text"  maxlength="150"  name="exp1org" value="<?php echo str_replace("<", "&lt;", $data['exp1org']); ?>" size="10"/>
+    </td>
+<td><input type="text"  maxlength="150"  name="exp1works" value="<?php echo $data['exp1works'];?>" size="10" /></td>
+    
+
+<td><input type="text"  maxlength="150"  name="techicalknoweledge" value="<?php echo $data['techicalknoweledge'];?>" size="10"  /></td>
+
+<td><input type="text"  maxlength="150"  name="totalworkexp" value="<?php echo $data['totalworkexp'];?>" size="10"  /></td>
+</table></fieldset>
+
+<fieldset>
+<legend>Enter any Three Reference (Optional)</legend>
+<table width="100%" ><tr><td class="td1">Name</td><td class="td1">Designation</td><td class="td1">Organization</td><td class="td1">Address</td><td class="td1">Email</td><td class="td1">Phone</td></tr><td>
+<input type="text"  maxlength="150"  name="referee1name" value="<?php echo $data['referee1name'];?>" maxlength="150" size="10" /> </td>
+<td><input type="text"  maxlength="150"  name="referee1desig" value="<?php echo $data['referee1desig'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee1org" value="<?php echo $data['referee1org'];?>" maxlength="150" size="10"/></td>
+ <td><input type="text"  maxlength="150"  name="referee1address" value="<?php echo $data['referee1address'];?>" maxlength="150" size="10" /></td>
+ <td><input type="text"  maxlength="150"  name="referee1email" value="<?php echo $data['referee1email'];?>" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee1phone" value="<?php echo $data['referee1phone'];?>" size="10" /></td></tr>
+
+<tr>
+ <td><input type="text"  maxlength="150"  name="referee2name" value="<?php echo $data['referee2name'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee2desig" value="<?php echo $data['referee2desig'];?>" maxlength="150" size="10" /></td>
+ <td><input type="text"  maxlength="150"  name="referee2org" value="<?php echo $data['referee2org'];?>" maxlength="150" size="10" /></td>
+ <td><input type="text"  maxlength="150"  name="referee2address" value="<?php echo $data['referee2address'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee2email" value="<?php echo $data['referee2email'];?>" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee2phone" value="<?php echo $data['referee2phone'];?>" size="10"/></td></tr>
+
+ <tr>
+ <td><input type="text"  maxlength="150"  name="referee3name" value="<?php echo $data['referee3name'];?>" maxlength="150" size="10" /></td>
+<td><input type="text"  maxlength="150"  name="referee3desig" value="<?php echo $data['referee3desig'];?>" maxlength="150" size="10" /></td>
+ <td><input type="text"  maxlength="150"  name="referee3org" value="<?php echo $data['referee3org'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee3address" value="<?php echo $data['referee3address'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="referee3email" value="<?php echo $data['referee3email'];?>" size="10" /></td>
+ <td><input type="text"  maxlength="150"  name="referee3phone" value="<?php echo $data['referee3phone'];?>" size="10" /></td></tr>
+</table>
+</fieldset>
+<fieldset>
+<legend>List of Publications, Projects and Patents </legend>
+<table width="100%" ><tr><td class="td1">Publications:</td><td class="td1">Conferences:</td><td class="td1">Journals:</td><td class="td1">Projects:</td><td class="td1">Patents:</td></tr>
+
+<tr ><td colspan="4">Enter your number of publications, projects and patents </td></tr><tr>
+<td> <input type="text"  maxlength="150"  name="publications" value="<?php echo $data['publications'];?>" maxlength="150" size="10" />
+    </td>
+<td><input type="text"  maxlength="150"  name="conferences" value="<?php echo $data['conferences'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="journals" value="<?php echo $data['journals'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="projects" value="<?php echo $data['projects'];?>" maxlength="150" size="10"  /></td>
+ <td><input type="text"  maxlength="150"  name="patents" value="<?php echo $data['patents'];?>" size="10"  /></td>
+ </tr>
+
+</table>
+</fieldset>
+<fieldset>
+<legend>Additional Information</legend>
+<table align="center">
+<tr><td></td> <td   colspan="4"><textarea  name="addinfo" rows = "6" cols = "100" value="<?php echo $data['addinfo'];?>" ></textarea></td></tr>
+
+</table>
+</fieldset>
+<table align="center"><tr><td><input type="submit" value="submit"></td></tr></table>
+
+
+
+</div>
+
+</div>
+
+
+
+</form>
+
+
+				<!--<div class="footer"></div>
+			</div> .contect close here 
+		</center>
+	</body>
+</html>
